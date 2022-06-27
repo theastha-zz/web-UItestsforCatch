@@ -6,10 +6,11 @@ public class checkoutFlowForCatch extends BaseTest {
     @Test(groups="Test")
     public void verifyCatchHomePage(){
         catchObjectsThreadLocal.get().catchHomePage.verifyCatchHomePage();
+
     }
 
     @Test(groups="Test")
-    public void verifySearchForTheProduct() throws InterruptedException {
+    public void verifyProductSelectionFlowWithUpdateQuantiy() throws InterruptedException {
         catchObjectsThreadLocal.get().catchHomePage.enterProductToBeSearched();
         catchObjectsThreadLocal.get().productDetailPage.updateQuantityAddToCard("4");
     }
@@ -19,7 +20,6 @@ public class checkoutFlowForCatch extends BaseTest {
         catchObjectsThreadLocal.get().catchHomePage.enterProductToBeSearched();
         catchObjectsThreadLocal.get().productDetailPage.updateQuantityAddToCard("4");
         catchObjectsThreadLocal.get().productDetailPage.clickOnBuyNow();
-        catchObjectsThreadLocal.get().checkoutPage.verifyCheckoutFlow();
 
     }
 }
