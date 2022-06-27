@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 public class checkoutFlowForCatch extends BaseTest {
 
     @Test(groups="Test")
-    public void verifyUserIsAbleToOpenURL(){
+    public void verifyCatchHomePage(){
         catchObjectsThreadLocal.get().catchHomePage.verifyCatchHomePage();
     }
 

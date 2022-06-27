@@ -34,6 +34,7 @@ public class CatchHomePage extends BasePage {
     public void verifyCatchHomePage(){
         waits.waitForVisibilityOf(catch_logo);
         Assert.assertTrue(catch_logo.isDisplayed());
+
     }
 
 
