@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="checkoutFlowForCatch" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-06-27T04:30:54" hostname="Astha-Jaiswal" time="11.652">
+  <properties/>
+  <testcase name="verifyOrderNowFlow" classname="checkoutFlowForCatch" time="11.652"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Starting ChromeDriver 103.0.5060.53 (a1711811edd74ff1cf2150f36ffa3b0dae40b17f-refs/branch-heads/5060@{#853}) on port 40466
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.
+Jun 27, 2022 10:00:47 AM org.openqa.selenium.remote.ProtocolHandshake createSession
+INFO: Detected dialect: W3C
+]]></system-err>
+</testsuite>

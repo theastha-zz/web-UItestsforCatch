@@ -1,0 +1,110 @@
+buildscript {
+    ext {
+        lombokVersion = '1.18.10'
+        testngVersion = '7.1.0'
+    }
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'com.test'
+version '1.0-SNAPSHOT'
+task configureReportPortal() {
+
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+        mavenCentral()
+        google()
+        maven { url "https://artifactory-gojek.golabs.io/artifactory/darkseid" }
+
+        maven { url "https://packages.confluent.io/maven"}
+    }
+
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:$rootProject.ext.lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$rootProject.ext.lombokVersion"
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    implementation "org.testng:testng:$rootProject.ext.testngVersion"
+    implementation("io.github.bonigarcia:webdrivermanager:5.2.0")
+
+
+    implementation(group: 'org.uncommons', name: 'reportng', version: '1.1.4') {
+            exclude group: 'org.testng', module: 'testng'
+        }
+
+}
+task test(type: Test,overwrite: true){
+    systemProperties = [env                     : System.getProperty('env', 'staging'),
+                        tag                     : System.getProperty('tag', 'NONE'),
+
+                        PROJECT_MODULE          : project.projectDir.name,
+                        ROOT                    : project.rootDir.name,
+                        PROJECT_MODULE_FULL_PATH: project.projectDir.absolutePath,
+                        config                  : "gopaylater.json"
+    ]
+    systemProperties System.getProperties()
+    useTestNG {
+        parallel = System.getProperty('parallel', 'none')
+        testLogging.exceptionFormat = 'full'
+        testLogging.showStandardStreams = true
+        preserveOrder = true
+        threadCount = Integer.parseInt(System.getProperty('threadcount', '1'))
+        useDefaultListeners = true
+        includeGroups System.getProperty('tag', '')
+        outputDirectory = file("$buildDir/")
+    }
+
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                def output = "Results: ${result.resultType} (${result.testCount - result.skippedTestCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} retries)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }
+}
+
+task runTests(type: Test) {
+    systemProperties = [env                      : System.getProperty('env', 'staging'),
+                        tag                      : System.getProperty('tag', 'NONE'),
+
+                        PROJECT_MODULE           : project.projectDir.name,
+                        ROOT                     : project.rootDir.name,
+                        PROJECT_MODULE_FULL_PATH : project.projectDir.absolutePath,
+                        config                   : "gopaylater.json"]
+    systemProperties System.getProperties()
+    useTestNG {
+        parallel = System.getProperty('parallel', 'none')
+        testLogging.exceptionFormat = 'full'
+        testLogging.showStandardStreams = true
+        preserveOrder = true
+        threadCount = Integer.parseInt(System.getProperty('threadcount', '1'))
+        useDefaultListeners = true
+        includeGroups System.getProperty('tag', '')
+        outputDirectory = file("$buildDir/" + systemProperties["tag"])
+        testLogging {
+            afterSuite { desc, result ->
+                if (!desc.parent) {
+                    def output = "Results: ${result.resultType} (${result.testCount - result.skippedTestCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} retries)"
+                    def startItem = '|  ', endItem = '  |'
+                    def repeatLength = startItem.length() + output.length() + endItem.length()
+                    println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+                }
+
+            }
+        }
+    }
+
+}
