@@ -12,8 +12,8 @@ This is sample repo for testing Framework
 ## Getting started
 
 ```bash
-$ git clone 
-$ cd g
+$ git clone https://github.com/theastha/web-UItestsforCatch.git
+$ cd web-UItestsforCatch
 $ ./gradlew clean test -Dtags="test" -Drunmode=local
 #need to  have chrome browser installed
 ```
